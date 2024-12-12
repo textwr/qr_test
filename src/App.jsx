@@ -93,6 +93,7 @@ function App() {
         progress: undefined,
         theme: "light",
       });
+      alert("성공");
     }
   });
 
