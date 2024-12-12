@@ -13,6 +13,40 @@ function App() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    const requestCameraPermission = async () => {
+      try {
+        // 뒤카메라 키기
+        const stream = navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "environment",
+          },
+        });
+
+        setVideoStream(stream);
+        setPermissionGranted(true);
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (permissionGranted === null) {
+      requestCameraPermission();
+    }
+
+    return () => {
+      if (videoStream) {
+        videoStream.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+    };
+  }, [permissionGranted, videoStream]);
+
+  useEffect(() => {
     if (videoStream) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
@@ -61,40 +95,6 @@ function App() {
       });
     }
   }, [qrData]);
-
-  useEffect(() => {
-    const requestCameraPermission = async () => {
-      try {
-        // 뒤카메라 키기
-        const stream = navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: "environment",
-          },
-        });
-
-        setVideoStream(stream);
-        setPermissionGranted(true);
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    if (permissionGranted === null) {
-      requestCameraPermission();
-    }
-
-    return () => {
-      if (videoStream) {
-        videoStream.getTracks().forEach((track) => {
-          track.stop();
-        });
-      }
-    };
-  }, [permissionGranted, videoStream]);
 
   //위도 경도 가져오기
   useEffect(() => {
