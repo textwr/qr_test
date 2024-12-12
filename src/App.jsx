@@ -47,6 +47,23 @@ function App() {
   }, [permissionGranted, videoStream]);
 
   useEffect(() => {
+    if (qrData) {
+      //데이터베이스에서 보내는 작업
+      toast.success(`${qrData}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      alert("성공");
+    }
+  }, []);
+
+  useEffect(() => {
     const requestCameraPermission = async () => {
       try {
         // 뒤카메라 키기
@@ -79,23 +96,6 @@ function App() {
       }
     };
   }, [permissionGranted, videoStream]);
-
-  useEffect(() => {
-    if (qrData) {
-      //데이터베이스에서 보내는 작업
-      toast.success(`${qrData}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      alert("성공");
-    }
-  }, []);
 
   //위도 경도 가져오기
   useEffect(() => {
