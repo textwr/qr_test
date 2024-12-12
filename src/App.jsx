@@ -61,7 +61,7 @@ function App() {
       });
       alert("성공");
     }
-  }, []);
+  }, [qrData]);
 
   useEffect(() => {
     const requestCameraPermission = async () => {
