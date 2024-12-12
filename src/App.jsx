@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 
 function App() {
   const [userLocation, setUserLocations] = useState({});
-  const [videoStream, setVideoStream] = useState({});
-  const [permissionGranted, setPermissionGranted] = useState({});
+  const [videoStream, setVideoStream] = useState(null);
+  const [permissionGranted, setPermissionGranted] = useState(false);
   const [qrData, setQrData] = useState({});
 
   const videoRef = useRef(null);
@@ -49,7 +49,7 @@ function App() {
   useEffect(() => {
     if (qrData) {
       //데이터베이스에서 보내는 작업
-      toast.success(`${qrData}`, {
+      toast.success(`${JSON.stringify(qrData)}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -59,7 +59,6 @@ function App() {
         progress: undefined,
         theme: "light",
       });
-      alert("성공");
     }
   }, [qrData]);
 
