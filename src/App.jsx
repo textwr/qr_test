@@ -95,7 +95,7 @@ function App() {
       });
       alert("성공");
     }
-  });
+  }, []);
 
   //위도 경도 가져오기
   useEffect(() => {
