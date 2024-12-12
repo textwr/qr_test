@@ -68,7 +68,7 @@ function App() {
         // 뒤카메라 키기
         const stream = navigator.mediaDevices.getUserMedia({
           video: {
-            facingMode: "enviroment",
+            facingMode: "environment",
           },
         });
 
