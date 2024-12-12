@@ -2,11 +2,13 @@ import jsQR from "jsqr";
 import { useEffect, useState, useRef } from "react";
 import { IoIosMenu } from "react-icons/io";
 import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [userLocation, setUserLocations] = useState({});
+  const [userLocation, setUserLocation] = useState({});
   const [videoStream, setVideoStream] = useState(null);
-  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [permissionGranted, setPermissionGranted] = useState(null);
   const [qrData, setQrData] = useState({});
 
   const videoRef = useRef(null);
@@ -47,6 +49,22 @@ function App() {
   }, [permissionGranted, videoStream]);
 
   useEffect(() => {
+    if (qrData) {
+      //데이터베이스에서 보내는 작업
+      toast.success(`${JSON.stringify(qrData)}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }, [qrData]);
+
+  useEffect(() => {
     if (videoStream) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
@@ -80,29 +98,13 @@ function App() {
     }
   }, [permissionGranted, videoStream]);
 
-  useEffect(() => {
-    if (qrData) {
-      //데이터베이스에서 보내는 작업
-      toast.success(`${JSON.stringify(qrData)}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  }, [qrData]);
-
   //위도 경도 가져오기
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setUserLocations({ latitude, longitude });
+          setUserLocation({ latitude, longitude });
         },
         (error) => {
           console.log(error);
