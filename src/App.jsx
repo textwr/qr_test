@@ -16,7 +16,7 @@ function App() {
     const requestCameraPermission = async () => {
       try {
         // 뒤카메라 키기
-        const stream = navigator.mediaDevices.getUserMedia({
+        const stream = await navigator.mediaDevices.getUserMedia({
           video: {
             facingMode: "environment",
           },
